@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strona Zamknięta Na Stałe</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #0b0f19;
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #161e2e;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            border: 1px solid #26334d;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            color: #ef4444;
+        }
+
+        p.desc {
+            color: #94a3b8;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .btn-toggle {
+            background-color: #1f2937;
+            color: #f3f4f6;
+            border: 1px solid #374151;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-toggle:hover {
+            background-color: #374151;
+            border-color: #4b5563;
+        }
+
+        .btn-toggle:active {
+            transform: scale(0.98);
+        }
+
+        .reason-box {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out, margin-top 0.3s ease;
+            opacity: 0;
+            background-color: #0d131f;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .reason-box.open {
+            max-height: 300px;
+            opacity: 1;
+            margin-top: 20px;
+            padding: 18px;
+            border: 1px solid #26334d;
+        }
+
+        .reason-box p {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Strona została zamknięta na stałe</h1>
+        <p class="desc">Dziękujemy wszystkim użytkownikom i odwiedzającym za spędzony czas. Ten serwis nie będzie już reaktywowany.</p>
+
+        <button class="btn-toggle" onclick="toggleReason()">Powód zamknięcia</button>
+
+        <div class="reason-box" id="reasonBox">
+            <p>
+                Nie chcę już dłużej istnieć w internecie, po raz drugi... Wpadłem w złe towarzystwo, po którym z miłą chęcia poszedł do łazienki i odebrał sobie życie. Ludzie są fałszywi, gdy ja mam problemy ze sobą, boję się odezwać od razu do psychologa, a ci którym ufam(czyt. ufałem) osrali mnie, ale jak już SZABLIX ma problemy to wszyscy się martwią... Jestem osobą, która ma problemy ze sobą odkąd żyje, nie mogę się z nikim dogadać, jestem osobą która łatwo komuś ufa, przez co łatwiej mnie rozjebać... Nie chcę już się dłużej pogrążyć, w dniu kiedy piszę poszedłem do psychiatry, zapewne trafię do psychiatryka, tak jak SZABLIX mi serdecznie życzył, SZABLIX wygrał i tyle. Dziękuję śmiecie, nie szukam już atencji, i tak moje zniknięcie nikogo nie będzie obchodziło. I tak przez was straciłem wszystko. ~Pawissek
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function toggleReason() {
+            const box = document.getElementById('reasonBox');
+            box.classList.toggle('open');
+        }
+    </script>
+
+</body>
+</html>
