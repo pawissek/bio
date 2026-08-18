@@ -77,11 +77,31 @@
         }
 
         .reason-box.open {
-            max-height: 300px;
+            max-height: 150px; /* Maksymalna wysokość widocznego pola */
+            overflow-y: auto;  /* Przewijanie pionowe, jeśli tekst się nie mieści */
             opacity: 1;
             margin-top: 20px;
             padding: 18px;
             border: 1px solid #26334d;
+        }
+
+        /* Stylizacja paska przewijania (scrollbara) dla nowoczesnego wyglądu */
+        .reason-box::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .reason-box::-webkit-scrollbar-track {
+            background: #0b0f19;
+            border-radius: 4px;
+        }
+
+        .reason-box::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 4px;
+        }
+
+        .reason-box::-webkit-scrollbar-thumb:hover {
+            background: #4b5563;
         }
 
         .reason-box p {
@@ -101,7 +121,7 @@
 
         <div class="reason-box" id="reasonBox">
             <p>
-                Nie chcę już dłużej istnieć w internecie, po raz drugi... Wpadłem w złe towarzystwo, po którym z miłą chęcia poszedł do łazienki i odebrał sobie życie. Ludzie są fałszywi, gdy ja mam problemy ze sobą, boję się odezwać od razu do psychologa, a ci którym ufam(czyt. ufałem) osrali mnie, ale jak już "ta osoba" ma problemy to wszyscy się martwią... Jestem osobą, która dopiero co będzie mieć 18 lat i ma problemy ze sobą odkąd żyje, nie mogę się z nikim dogadać, jestem osobą która łatwo komuś ufa, ale też łatwo można mnie psychicznie rozjebać... Najprawdopodobniej zgłoszę to na Policję (bądź już to zrobiłem). Pamiętajcie, Jebać Hejt. Dla dzieci i młodzieży: Telefon Zaufania jest pod numerem 116111.  ~Pawissek
+                Nie chcę już dłużej istnieć w internecie, po raz drugi... Wpadłem w złe towarzystwo, po którym z miłą chęcia poszedł do łazienki i odebrał sobie życie. Ludzie są fałszywi, gdy ja mam problemy ze sobą, boję się odezwać od razu do psychologa, a ci którym ufam(czyt. ufałem) osrali mnie, ale jak już ta osoba ma problemy to wszyscy się martwią... Jestem osobą, która dopiero co będzie mieć 18 lat i ma problemy ze sobą odkąd żyje, nie mogę się z nikim dogadać, jestem osobą która łatwo komuś ufa, ale też łatwo można mnie psychicznie rozjebać... Najprawdopodobniej zgłoszę to na Policję (bądź już to zrobiłem). Pamiętajcie, Jebać Hejt. Telefon zaufania dla dzieci i młodzieży znajduje sie pod numerem 116111.  ~Pawissek
             </p>
         </div>
     </div>
