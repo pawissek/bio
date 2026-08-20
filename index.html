@@ -1,137 +1,285 @@
 <!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strona Zamknięta Na Stałe</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: system-ui, -apple-system, sans-serif;
-        }
+<html lang="pl"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stream Bingo</title>
+  <style>
+    :root {
+  --bg-1: #050508;
+  --bg-2: #0d0d12;
+  --border: rgba(255, 255, 255, .15);
+  --accent: #ffffff;
+  --accent-soft: #e2e8f0;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+}
 
-        body {
-            background-color: #0b0f19;
-            color: #f8fafc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
+* { box-sizing: border-box; }
 
-        .container {
-            background-color: #161e2e;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            max-width: 500px;
-            width: 100%;
-            border: 1px solid #26334d;
-        }
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Sora", system-ui, sans-serif;
+  color: var(--text);
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 80% 10%, rgba(255,255,255,.08), transparent 28%),
+    radial-gradient(circle at 10% 90%, rgba(200,200,225,.06), transparent 30%),
+    var(--bg-1);
+}
 
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 12px;
-            color: #ef4444;
-        }
+body::before,
+body::after {
+  background: #ffffff;
+  right: -120px;
+  bottom: -120px;
+  animation-delay: -8s;
+}
 
-        p.desc {
-            color: #94a3b8;
-            margin-bottom: 24px;
-            line-height: 1.5;
-        }
+body::before {
+  background: #ffffff;
+  top: -120px;
+  left: -120px;
+}
 
-        .btn-toggle {
-            background-color: #1f2937;
-            color: #f3f4f6;
-            border: 1px solid #374151;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
+body::after {
+  content: "";
+  position: fixed;
+  width: 520px;
+  height: 520px;
+  right: -170px;
+  top: 130px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, .05), transparent 62%);
+  filter: blur(4px);
+  animation: orbFloat 9s ease-in-out infinite alternate;
+  pointer-events: none;
+}
 
-        .btn-toggle:hover {
-            background-color: #374151;
-            border-color: #4b5563;
-        }
+.nav {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  padding: 26px 12px 0;
+}
 
-        .btn-toggle:active {
-            transform: scale(0.98);
-        }
+.nav a {
+  position: relative;
+  padding: 8px 6px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  font-weight: 500;
+  transition: .25s ease;
+}
 
-        .reason-box {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out, opacity 0.3s ease-out, margin-top 0.3s ease;
-            opacity: 0;
-            background-color: #0d131f;
-            border-radius: 8px;
-            text-align: left;
-        }
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #ffffff, var(--muted));
+  border-radius: 2px;
+  transition: .3s ease;
+  opacity: .8;
+}
 
-        .reason-box.open {
-            max-height: 150px; /* Maksymalna wysokość widocznego pola */
-            overflow-y: auto;  /* Przewijanie pionowe, jeśli tekst się nie mieści */
-            opacity: 1;
-            margin-top: 20px;
-            padding: 18px;
-            border: 1px solid #26334d;
-        }
+.nav a:hover,
+.nav a.active {
+  color: #fff;
+}
 
-        /* Stylizacja paska przewijania (scrollbara) dla nowoczesnego wyglądu */
-        .reason-box::-webkit-scrollbar {
-            width: 6px;
-        }
+.nav a:hover::after,
+.nav a.active::after {
+  width: 100%;
+}
 
-        .reason-box::-webkit-scrollbar-track {
-            background: #0b0f19;
-            border-radius: 4px;
-        }
+.wrap {
+  width: min(760px, calc(100% - 28px));
+  margin: 58px auto 60px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
 
-        .reason-box::-webkit-scrollbar-thumb {
-            background: #374151;
-            border-radius: 4px;
-        }
+.profile-card {
+  position: relative;
+  padding: 40px 24px;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 34px;
+  background: linear-gradient(180deg, rgba(25, 25, 30, .65), rgba(10, 10, 15, .45));
+  backdrop-filter: blur(18px);
+  box-shadow: 0 30px 90px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.1);
+  overflow: hidden;
+}
 
-        .reason-box::-webkit-scrollbar-thumb:hover {
-            background: #4b5563;
-        }
+.profile-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--border-angle),
+    transparent 0deg,
+    transparent 300deg,
+    rgba(255, 255, 255, .8) 330deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: borderLight 12s linear infinite;
+  opacity: .90;
+}
 
-        .reason-box p {
-            color: #cbd5e1;
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-    </style>
+h1 {
+  margin: 0 0 16px 0;
+  font-family: "Manrope", system-ui, sans-serif;
+  font-size: clamp(28px, 4vw, 38px);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+  background: linear-gradient(90deg, #ffffff, #94a3b8);
+  -webkit-background-clip: text;
+  color: transparent;
+  opacity: .95;
+  animation: titleGlow 4.8s ease-in-out infinite;
+}
+
+.info-box {
+  margin-top: 20px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.pointer-notice {
+  display: inline-block;
+  margin-top: 28px;
+  padding: 14px 22px;
+  background: rgba(255, 255, 255, .05);
+  border: 1px dashed rgba(255, 255, 255, .25);
+  border-radius: 16px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .5px;
+}
+
+.footer {
+  margin: 28px auto 0;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  opacity: .9;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes orbFloat {
+  from { transform: translate3d(0,0,0) scale(1); }
+  to { transform: translate3d(-80px,70px,0) scale(1.12); }
+}
+
+@keyframes titleGlow {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(255, 255, 255, .2)); }
+  50% { filter: drop-shadow(0 0 16px rgba(255, 255, 255, .4)); }
+}
+
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes borderLight {
+  from { --border-angle: 0deg; }
+  to { --border-angle: 360deg; }
+}
+
+@media (max-width: 620px) {
+  .wrap { margin-top: 42px; }
+  .profile-card { padding: 32px 18px; border-radius: 26px; }
+  .nav { gap: 14px; flex-wrap: wrap; }
+  .nav a { font-size: 10px; padding: 6px 4px; }
+}
+
+.light-sweep { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.sweep {
+  position: absolute;
+  width: 42vw;
+  height: 0.5px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  transform: rotate(-16deg);
+  animation: sweep 5s linear infinite;
+  opacity: 0.35;
+}
+
+@keyframes sweep {
+  from { transform: translate3d(-70vw, 0, 0) rotate(-14deg); opacity: 0; }
+  18% { opacity: .3; }
+  82% { opacity: .3; }
+  to { transform: translate3d(130vw, 0, 0) rotate(-14deg); opacity: 0; }
+}
+  </style>
 </head>
 <body>
+  
+  <div class="light-sweep" id="lightSweep" aria-hidden="true"></div>
 
-    <div class="container">
-        <h1>Strona została zamknięta na stałe</h1>
-        <p class="desc">Dziękuję każdemu, kto chociaż na sekundkę wpadnął na moją (pół) autorską stronę, która była odpowiednikiem dla guns(kropka)lol.</p>
+  <nav class="nav">
+    <a href="#" class="active">GŁÓWNA</a>
+    <a href="#">STREAMER 1</a>
+    <a href="#">STREAMER 2</a>
+    <a href="#">STREAMER 3</a>
+    <a href="#">STREAMER 4</a>
+  </nav>
 
-        <button class="btn-toggle" onclick="toggleReason()">Powód zamknięcia</button>
+  <main class="wrap">
+    <section class="profile-card">
+      <h1>Stream Bingo</h1>
+      
+      <div class="info-box">
+        Wybierz z paska nawigacji u góry, czyje Bingo chcesz otworzyć. Każdy streamer posiada osobną dedykowaną planszę z własnymi hasłami do gry podczas transmisji na żywo.
+      </div>
 
-        <div class="reason-box" id="reasonBox">
-            <p>
-                Nie chcę już dłużej istnieć w internecie, po raz drugi... Wpadłem w złe towarzystwo, po którym z miłą chęcia poszedł do łazienki i odebrał sobie życie. Ludzie są fałszywi, gdy ja mam problemy ze sobą, boję się odezwać od razu do psychologa, a ci którym ufam(czyt. ufałem) osrali mnie, ale jak już ta osoba ma problemy to wszyscy się martwią... Jestem osobą, która dopiero co będzie mieć 18 lat i ma problemy ze sobą odkąd żyje, nie mogę się z nikim dogadać, jestem osobą która łatwo komuś ufa, ale też łatwo można mnie psychicznie rozjebać... Najprawdopodobniej zgłoszę to na Policję (bądź już to zrobiłem). Pamiętajcie, Jebać Hejt. Telefon zaufania dla dzieci i młodzieży znajduje sie pod numerem 116111.  ~Pawissek
-            </p>
-        </div>
-    </div>
+      <div class="pointer-notice">
+        👆 Wybierz Twórcę w menu powyżej
+      </div>
+    </section>
+  </main>
 
-    <script>
-        function toggleReason() {
-            const box = document.getElementById('reasonBox');
-            box.classList.toggle('open');
-        }
-    </script>
+  <div class="footer">
+    Strona stworzona przez Twój Nick
+  </div>
+  
+  <div class="footer" style="margin-top:10px; opacity:.6; font-size:11px;">
+    © 2026 Twoja Nazwa
+  </div>
 
-</body>
-</html>
+<script>
+  const lightSweep = document.getElementById('lightSweep');
+
+  for (let i = 0; i < 18; i++) {
+    const sweep = document.createElement('span');
+    sweep.className = 'sweep';
+    sweep.style.left = Math.random() * 100 + 'vw';
+    sweep.style.top = Math.random() * 100 + 'vh';
+    sweep.style.animationDuration = 12 + Math.random() * 10 + 's';
+    sweep.style.animationDelay = -Math.random() * 20 + 's';
+    sweep.style.opacity = 0.15 + Math.random() * 0.45;
+    lightSweep.appendChild(sweep);
+  }
+</script>
+
+</body></html>
