@@ -111,7 +111,7 @@ body::after {
 
 .profile-card {
   position: relative;
-  padding: 24px;
+  padding: 40px 24px;
   border: 1px solid rgba(255, 255, 255, .1);
   border-radius: 34px;
   background: linear-gradient(180deg, rgba(25, 25, 30, .65), rgba(10, 10, 15, .45));
@@ -141,18 +141,8 @@ body::after {
   opacity: .90;
 }
 
-.profile-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  overflow: hidden;
-}
-
 h1 {
-  margin: 0;
-  padding-bottom: 4px;
+  margin: 0 0 16px 0;
   font-family: "Manrope", system-ui, sans-serif;
   font-size: clamp(28px, 4vw, 38px);
   line-height: 1.1;
@@ -165,232 +155,24 @@ h1 {
   animation: titleGlow 4.8s ease-in-out infinite;
 }
 
-.subtitle {
-  margin: 10px 0 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.info-tooltip {
-  position: relative;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,.2);
-  background: rgba(255,255,255,.05);
-  color: #f8fafc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: .25s ease;
-}
-
-.info-tooltip:hover {
-  border-color: rgba(255, 255, 255, .5);
-  background: rgba(255, 255, 255, .12);
-  box-shadow: 0 0 14px rgba(255, 255, 255, .2);
-}
-
-.info-tooltip-box {
-  position: absolute;
-  left: 50%;
-  top: calc(100% + 10px);
-  transform: translateX(-50%);
-  width: 220px;
-  padding: 12px 14px;
-  border-radius: 14px;
-  background: rgba(15, 15, 20, .96);
-  border: 1px solid rgba(255,255,255,.15);
+.info-box {
+  margin-top: 20px;
+  font-size: 15px;
+  line-height: 1.6;
   color: var(--muted);
-  font-size: 11px;
-  line-height: 1.45;
-  opacity: 0;
-  visibility: hidden;
-  transition: .2s ease;
-  pointer-events: none;
-  backdrop-filter: blur(12px);
-  z-index: 10;
 }
 
-.info-tooltip:hover .info-tooltip-box {
-  opacity: 1;
-  visibility: visible;
-}
-
-.bingo-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 18px;
-  margin: 0 0 18px;
-  text-align: left;
-}
-
-.bingo-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin: 6px 0 0;
-  flex-wrap: wrap;
-}
-
-.bingo-btn {
-  position: relative;
-  overflow: hidden;
-  min-width: 96px;
-  height: 44px;
-  padding: 0 20px;
-  color: #fff;
-  background: linear-gradient(180deg, rgba(40, 40, 50, .92), rgba(20, 20, 25, .92));
-  border: 1px solid rgba(255, 255, 255, .25);
+.pointer-notice {
+  display: inline-block;
+  margin-top: 28px;
+  padding: 14px 22px;
+  background: rgba(255, 255, 255, .05);
+  border: 1px dashed rgba(255, 255, 255, .25);
   border-radius: 16px;
-  letter-spacing: -.2px;
-  font-size: 14px;
-  font-weight: 800;
-  cursor: pointer;
-  backdrop-filter: blur(10px);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.1),
-    0 8px 24px rgba(0,0,0,.3);
-  transition:
-    transform .18s ease,
-    border-color .25s ease,
-    background .25s ease,
-    box-shadow .25s ease;
-}
-
-.bingo-btn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, .15), rgba(200, 200, 200, .05));
-  opacity: 0;
-  transition: opacity .25s ease;
-}
-
-.bingo-btn:hover::before {
-  opacity: 1;
-}
-
-.bingo-btn:hover {
-  transform: translateY(-1px);
-  border-color: rgba(255, 255, 255, .6);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.15),
-    0 10px 30px rgba(255, 255, 255, .15);
-}
-
-.bingo-btn:active {
-  transform: scale(.97);
-}
-
-.bingo-grid {
-  display: grid;
-  grid-template-columns: repeat(var(--grid-size), 1fr);
-  gap: 10px;
-}
-
-.bingo-cell {
-  position: relative;
-  overflow: hidden;
-  display: grid;
-  place-items: center;
-  min-height: 86px;
-  padding: 12px;
-  color: var(--text);
-  background: rgba(20, 20, 26, .7);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 15px;
-  letter-spacing: -.2px;
-  font-size: 12px;
-  font-weight: 800;
-  line-height: 1.2;
-  text-align: center;
-  cursor: pointer;
-  user-select: none;
-  transition: background .28s ease, border-color .28s ease, box-shadow .28s ease, transform .22s ease;
-}
-
-.bingo-cell span {
-  position: relative;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.bingo-cell::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(255, 255, 255, .12), transparent 62%);
-  opacity: 0;
-  transition: .35s ease;
-}
-
-.bingo-cell:hover::before { opacity: 1; }
-
-.bingo-cell:hover {
-  border-color: rgba(255, 255, 255, .4);
-  background: rgba(35, 35, 45, .85);
-  box-shadow: 0 8px 22px rgba(255, 255, 255, .08);
-}
-
-.bingo-cell.active {
-  border-color: rgba(255, 255, 255, .6);
-  background: rgba(45, 45, 55, .85);
-  box-shadow: 0 8px 22px rgba(255, 255, 255, .12), inset 0 0 0 1px rgba(255,255,255,.1);
-}
-
-.bingo-cell.active::after {
-  content: "";
-  position: absolute;
-  inset: 12px;
-  opacity: .3;
-  pointer-events: none;
-  background:
-    linear-gradient(45deg,
-      transparent calc(50% - 3px),
-      #ffffff calc(50% - 3px),
-      #ffffff calc(50% + 3px),
-      transparent calc(50% + 3px)
-    ),
-    linear-gradient(-45deg,
-      transparent calc(50% - 3px),
-      #ffffff calc(50% - 3px),
-      #ffffff calc(50% + 3px),
-      transparent calc(50% + 3px)
-    );
-  filter: drop-shadow(0 0 12px rgba(255, 255, 255, .5));
-  transform: scale(.82);
-  animation: markIn .18s ease forwards;
-}
-
-.bingo-status {
-  margin: 28px 0 4px;
-  min-height: 54px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Orbitron", sans-serif;
-  font-size: 42px;
-  font-weight: 800;
-  letter-spacing: -.04em;
-  background: linear-gradient(90deg, #ffffff, #cbd5e1, #94a3b8);
-  -webkit-background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 0 18px rgba(255, 255, 255, .4));
-  opacity: 0;
-  transform: translateY(8px) scale(.96);
-  transition: .35s ease;
-}
-
-.bingo-status.show {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  animation: bingoPop .55s ease;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .5px;
 }
 
 .footer {
@@ -402,46 +184,6 @@ h1 {
   opacity: .9;
   position: relative;
   z-index: 1;
-}
-
-.footer a {
-  color: var(--accent-soft);
-  text-decoration: none;
-  position: relative;
-  transition: all .25s ease;
-}
-
-.footer a:hover {
-  color: #fff;
-  text-shadow:
-    0 0 6px rgba(255, 255, 255, .5),
-    0 0 12px rgba(255, 255, 255, .3);
-}
-
-.footer a::before {
-  content: "";
-  position: absolute;
-  inset: -4px -6px;
-  border-radius: 6px;
-  background: radial-gradient(circle, rgba(255, 255, 255, .15), transparent 20%);
-  opacity: 0;
-  transition: opacity .25s ease;
-  z-index: -1;
-}
-
-.footer a:hover::before {
-  opacity: 1;
-}
-
-@keyframes bingoPop {
-  0% { opacity: 0; transform: scale(.7); filter: blur(6px) drop-shadow(0 0 0 rgba(255, 255, 255, 0)); }
-  55% { transform: scale(1.08); }
-  100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 18px rgba(255, 255, 255, .4)); }
-}
-
-@keyframes markIn {
-  from { opacity: 0; transform: scale(.65); }
-  to { opacity: .3; transform: scale(1); }
 }
 
 @keyframes orbFloat {
@@ -467,11 +209,9 @@ h1 {
 
 @media (max-width: 620px) {
   .wrap { margin-top: 42px; }
-  .profile-card { padding: 28px 16px 20px; border-radius: 26px; }
-  .nav { gap: 18px; flex-wrap: wrap; }
-  .nav a { font-size: 10px; padding: 10px 8px; }
-  .bingo-grid { gap: 8px; }
-  .bingo-cell { min-height: 76px; padding: 8px; border-radius: 16px; font-size: 10px; }
+  .profile-card { padding: 32px 18px; border-radius: 26px; }
+  .nav { gap: 14px; flex-wrap: wrap; }
+  .nav a { font-size: 10px; padding: 6px 4px; }
 }
 
 .light-sweep { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
@@ -498,143 +238,26 @@ h1 {
   <div class="light-sweep" id="lightSweep" aria-hidden="true"></div>
 
   <nav class="nav">
-    <a href="#">GŁÓWNA</a>
-    <a href="#">KONTAKT</a>
-    <a href="#">STREAM</a>
-    <a href="#" class="active">BINGO</a>
-    <a href="#">KALENDARZ</a>
+    <a href="#" class="active">Główna</a>
+    <a href="https://bio.nalogowiec.pl/grendy.html">Grendy</a>
+    <a href="#">Wkrótce</a>
+    <a href="#">Wkrótce</a>
+    <a href="#">Wkrótce</a>
   </nav>
 
   <main class="wrap">
     <section class="profile-card">
-      <div class="bingo-header">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <h1>Stream Bingo</h1>
-
-          <div class="info-tooltip">
-            i
-            <div class="info-tooltip-box">
-              Klikaj pola podczas streama.<br><br>
-              Jeśli zaznaczysz 4 pola w jednej linii — poziomo, pionowo albo po skosie — zdobywasz BINGO.
-            </div>
-          </div>
-        </div>
-
-        <div class="bingo-actions">
-          <button class="bingo-btn" type="button" id="newCardBtn">Losuj</button>
-          <button class="bingo-btn" type="button" id="resetBtn">Reset</button>
-        </div>
+      <h1>Stream Bingo</h1>
+      
+      <div class="info-box">
+        Wybierz z paska nawigacji u góry, czyje Bingo chcesz otworzyć. Każdy streamer posiada osobną dedykowaną planszę z własnymi hasłami do gry podczas transmisji na żywo.
       </div>
-      <br>
 
-      <div class="bingo-grid" id="bingoGrid" style="--grid-size: 4;"></div>
-      <div class="bingo-status" id="bingoStatus"></div>
+      <div class="pointer-notice">
+        👆 Wybierz Twórcę w menu powyżej
+      </div>
     </section>
   </main>
-
-  <script>
-    const GRID_SIZE = 4;
-
-    const bingoItems = [
-      "Hasło 1",
-      "Hasło 2",
-      "Hasło 3",
-      "Hasło 4",
-      "Hasło 5",
-      "Hasło 6",
-      "Hasło 7",
-      "Hasło 8",
-      "Hasło 9",
-      "Hasło 10",
-      "Hasło 11",
-      "Hasło 12",
-      "Hasło 13",
-      "Hasło 14",
-      "Hasło 15",
-      "Hasło 16"
-    ];
-
-    const grid = document.getElementById("bingoGrid");
-    const status = document.getElementById("bingoStatus");
-    const newCardBtn = document.getElementById("newCardBtn");
-    const resetBtn = document.getElementById("resetBtn");
-
-    let currentCard = [];
-
-    function shuffle(array) {
-      return [...array].sort(() => Math.random() - 0.5);
-    }
-
-    function createCard() {
-      const neededItems = GRID_SIZE * GRID_SIZE;
-
-      if (bingoItems.length < neededItems) {
-        status.textContent = `Dodaj minimum ${neededItems} haseł do listy bingoItems.`;
-        return;
-      }
-
-      currentCard = shuffle(bingoItems).slice(0, neededItems);
-      grid.style.setProperty("--grid-size", GRID_SIZE);
-      grid.innerHTML = "";
-      status.textContent = "";
-      status.classList.remove("show");
-
-      currentCard.forEach((text, index) => {
-        const cell = document.createElement("button");
-        cell.className = "bingo-cell";
-        cell.type = "button";
-        cell.innerHTML = `<span>${text}</span>`;
-        cell.dataset.index = index;
-
-        cell.addEventListener("click", () => {
-          cell.classList.toggle("active");
-          checkBingo();
-        });
-
-        grid.appendChild(cell);
-      });
-    }
-
-    function resetCard() {
-      document.querySelectorAll(".bingo-cell.active").forEach(cell => {
-        cell.classList.remove("active");
-      });
-      status.textContent = "";
-      status.classList.remove("show");
-    }
-
-    function checkBingo() {
-      const cells = [...document.querySelectorAll(".bingo-cell")];
-      const selected = cells.map(cell => cell.classList.contains("active"));
-
-      const lines = [];
-
-      for (let row = 0; row < GRID_SIZE; row++) {
-        lines.push([...Array(GRID_SIZE)].map((_, col) => row * GRID_SIZE + col));
-      }
-
-      for (let col = 0; col < GRID_SIZE; col++) {
-        lines.push([...Array(GRID_SIZE)].map((_, row) => row * GRID_SIZE + col));
-      }
-
-      lines.push([...Array(GRID_SIZE)].map((_, i) => i * GRID_SIZE + i));
-      lines.push([...Array(GRID_SIZE)].map((_, i) => i * GRID_SIZE + (GRID_SIZE - 1 - i)));
-
-      const hasBingo = lines.some(line => line.every(index => selected[index]));
-      status.textContent = hasBingo ? "BINGO!" : "";
-
-      if (hasBingo) {
-        status.classList.add("show");
-      } else {
-        status.classList.remove("show");
-      }
-    }
-
-    newCardBtn.addEventListener("click", createCard);
-    resetBtn.addEventListener("click", resetCard);
-
-    createCard();
-  </script>
 
   <div class="footer">
     Strona stworzona przez Twój Nick
