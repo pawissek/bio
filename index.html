@@ -3,7 +3,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stream Bingo</title>
+  <title>Strona w przebudowie</title>
   <style>
     :root {
   --bg-1: #050508;
@@ -29,20 +29,6 @@ body {
     var(--bg-1);
 }
 
-body::before,
-body::after {
-  background: #ffffff;
-  right: -120px;
-  bottom: -120px;
-  animation-delay: -8s;
-}
-
-body::before {
-  background: #ffffff;
-  top: -120px;
-  left: -120px;
-}
-
 body::after {
   content: "";
   position: fixed;
@@ -57,53 +43,9 @@ body::after {
   pointer-events: none;
 }
 
-.nav {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 28px;
-  padding: 26px 12px 0;
-}
-
-.nav a {
-  position: relative;
-  padding: 8px 6px;
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 12px;
-  letter-spacing: 1.5px;
-  font-weight: 500;
-  transition: .25s ease;
-}
-
-.nav a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #ffffff, var(--muted));
-  border-radius: 2px;
-  transition: .3s ease;
-  opacity: .8;
-}
-
-.nav a:hover,
-.nav a.active {
-  color: #fff;
-}
-
-.nav a:hover::after,
-.nav a.active::after {
-  width: 100%;
-}
-
 .wrap {
   width: min(760px, calc(100% - 28px));
-  margin: 58px auto 60px;
+  margin: 20vh auto 0;
   text-align: center;
   position: relative;
   z-index: 1;
@@ -111,7 +53,7 @@ body::after {
 
 .profile-card {
   position: relative;
-  padding: 40px 24px;
+  padding: 60px 40px;
   border: 1px solid rgba(255, 255, 255, .1);
   border-radius: 34px;
   background: linear-gradient(180deg, rgba(25, 25, 30, .65), rgba(10, 10, 15, .45));
@@ -142,9 +84,9 @@ body::after {
 }
 
 h1 {
-  margin: 0 0 16px 0;
+  margin: 0 0 20px 0;
   font-family: "Manrope", system-ui, sans-serif;
-  font-size: clamp(28px, 4vw, 38px);
+  font-size: clamp(32px, 5vw, 48px);
   line-height: 1.1;
   letter-spacing: -0.035em;
   font-weight: 800;
@@ -155,35 +97,40 @@ h1 {
   animation: titleGlow 4.8s ease-in-out infinite;
 }
 
-.info-box {
-  margin-top: 20px;
-  font-size: 15px;
-  line-height: 1.6;
+.status-text {
+  font-size: 16px;
   color: var(--muted);
+  max-width: 500px;
+  margin: 0 auto 36px auto;
+  line-height: 1.6;
 }
 
-.pointer-notice {
-  display: inline-block;
-  margin-top: 28px;
-  padding: 14px 22px;
-  background: rgba(255, 255, 255, .05);
-  border: 1px dashed rgba(255, 255, 255, .25);
-  border-radius: 16px;
-  color: #fff;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: .5px;
+.loader-bar {
+  height: 4px;
+  width: 140px;
+  background: rgba(255,255,255,0.1);
+  margin: 0 auto;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.loader-fill {
+  height: 100%;
+  width: 40%;
+  background: #ffffff;
+  animation: loading 2s infinite ease-in-out;
 }
 
 .footer {
-  margin: 28px auto 0;
-  text-align: center;
+  margin-top: 40px;
   font-size: 12px;
   color: var(--muted);
-  letter-spacing: 1px;
-  opacity: .9;
-  position: relative;
-  z-index: 1;
+  opacity: 0.6;
+}
+
+@keyframes loading {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(250%); }
 }
 
 @keyframes orbFloat {
@@ -205,13 +152,6 @@ h1 {
 @keyframes borderLight {
   from { --border-angle: 0deg; }
   to { --border-angle: 360deg; }
-}
-
-@media (max-width: 620px) {
-  .wrap { margin-top: 42px; }
-  .profile-card { padding: 32px 18px; border-radius: 26px; }
-  .nav { gap: 14px; flex-wrap: wrap; }
-  .nav a { font-size: 10px; padding: 6px 4px; }
 }
 
 .light-sweep { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
@@ -237,35 +177,21 @@ h1 {
   
   <div class="light-sweep" id="lightSweep" aria-hidden="true"></div>
 
-  <nav class="nav">
-    <a href="#" class="active">Główna</a>
-    <a href="https://bio.nalogowiec.pl/grendy.html">Grendy</a>
-    <a href="#">Wkrótce</a>
-    <a href="#">Wkrótce</a>
-    <a href="#">Wkrótce</a>
-  </nav>
-
   <main class="wrap">
     <section class="profile-card">
-      <h1>Stream Bingo</h1>
-      
-      <div class="info-box">
-        Wybierz z paska nawigacji u góry, czyje Bingo chcesz otworzyć. Każdy streamer posiada osobną dedykowaną planszę z własnymi hasłami do gry podczas transmisji na żywo.
+      <h1>Strona w przebudowie</h1>
+      <div class="status-text">
+        Trwają prace modernizacyjne. Zapraszamy wkrótce!
       </div>
-
-      <div class="pointer-notice">
-        👆 Wybierz Twórcę w menu powyżej
+      <div class="loader-bar">
+        <div class="loader-fill"></div>
+      </div>
+      
+      <div class="footer">
+        © 2026 Pawissek
       </div>
     </section>
   </main>
-
-  <div class="footer">
-    Strona stworzona przez Pawissek (+ AI)
-  </div>
-  
-  <div class="footer" style="margin-top:10px; opacity:.6; font-size:11px;">
-    © 2026 Pawissek
-  </div>
 
 <script>
   const lightSweep = document.getElementById('lightSweep');
