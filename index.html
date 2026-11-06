@@ -3,437 +3,318 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Link in Bio</title>
-  
+  <title>@referencja – Link in Bio</title>
+  <meta name="description" content="Wszystkie moje linki w jednym miejscu.">
+  <meta name="theme-color" content="#000000">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="@referencja">
+  <meta property="og:description" content="Wszystkie moje linki w jednym miejscu.">
+  <meta property="og:image" content="https://referencja.monsterkoholik.pl/avatar.png">
+  <meta property="og:url" content="https://referencja.monsterkoholik.pl/">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="avatar.png">
+
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2743728399885004"
        crossorigin="anonymous"></script>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Import gangsterskiej czcionki Pirata One z Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Pirata+One&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --glass-bg: rgba(255, 255, 255, 0.02);
-      --glass-border: rgba(255, 255, 255, 0.18);
-      --glass-blur: blur(8px);
-      --accent: #ffffff;
-      --text-muted: rgba(255, 255, 255, 0.7);
-      --gangster-font: 'Pirata One', cursive, system-ui;
+      --text: #f4f4f4;
+      --muted: rgba(255, 255, 255, 0.62);
+      --line: rgba(255, 255, 255, 0.16);
+      --blackletter: 'Pirata One', cursive, system-ui;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background: #000;
-      color: var(--accent);
-      font-family: system-ui, -apple-system, sans-serif;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      color: var(--text);
+      font-family: 'Outfit', system-ui, sans-serif;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
     }
 
-    /* Powiadomienie o skopiowaniu (Toast Notification) */
-    #copy-toast {
-      position: fixed;
-      top: 25px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-20px);
-      background: rgba(0, 0, 0, 0.75);
-      color: #fff;
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      padding: 10px 22px;
-      border-radius: 30px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-      z-index: 1000;
-    }
-
-    #copy-toast.show {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    #copy-toast i {
-      color: #5865F2;
-      font-size: 1.1rem;
-    }
-
-    /* Nakładka powitalna */
-    #overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      z-index: 999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
-    }
-
-    #overlay p {
-      font-family: var(--gangster-font);
-      font-size: 1.8rem;
-      letter-spacing: 2px;
-      color: var(--accent);
-      border: 1px solid var(--glass-border);
-      padding: 14px 32px;
-      border-radius: 40px;
-      background: var(--glass-bg);
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-      transition: transform 0.2s ease, background 0.2s ease;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-    }
-
-    #overlay:hover p {
-      transform: scale(1.05);
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    /* Wideo w tle */
+    /* --- TŁO --- */
     #video-bg {
-      position: fixed;
-      right: 0;
-      bottom: 0;
-      min-width: 100%;
-      min-height: 100%;
-      z-index: -1;
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
       object-fit: cover;
+      z-index: -2;
+    }
+    .shade {
+      position: fixed; inset: 0; z-index: -1;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.6) 100%),
+        linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 40%);
     }
 
-    /* Główna karta */
-    .glass-card {
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: var(--glass-blur);
-      -webkit-backdrop-filter: var(--glass-blur);
-      border-radius: 28px;
-      padding: 35px 25px;
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
-      display: flex;
-      flex-direction: column;
+    /* --- EKRAN STARTOWY --- */
+    #overlay {
+      position: fixed; inset: 0; z-index: 999;
+      border: none; color: var(--text); font: inherit;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: flex; justify-content: center; align-items: center;
+      cursor: pointer;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #overlay span {
+      font-family: var(--blackletter);
+      font-size: clamp(2rem, 7vw, 3.2rem);
+      letter-spacing: 2px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--line);
+      transition: border-color 0.3s, letter-spacing 0.3s;
+    }
+    #overlay:hover span, #overlay:focus-visible span { border-color: #fff; letter-spacing: 4px; }
+    #overlay:focus-visible { outline: none; }
+
+    /* --- UKŁAD --- */
+    .stage {
+      max-width: 1100px;
+      margin: 0 auto;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 48px 28px 140px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 64px;
       align-items: center;
-      gap: 18px;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.9s ease 0.25s, transform 0.9s ease 0.25s;
     }
+    body.in .stage { opacity: 1; transform: none; }
 
-    /* Sekcja profilu */
+    /* Lewa kolumna: tożsamość */
     .avatar {
-      width: 100px;
-      height: 100px;
+      width: 88px; height: 88px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid var(--glass-border);
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--line);
+      margin-bottom: 22px;
     }
-
-    .profile-info h1 {
-      font-family: var(--gangster-font);
-      font-size: 2.2rem;
+    h1 {
+      font-family: var(--blackletter);
       font-weight: 400;
+      font-size: clamp(3.2rem, 9vw, 7rem);
+      line-height: 0.95;
       letter-spacing: 1px;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+      text-shadow: 0 4px 24px rgba(0,0,0,0.6);
+      margin-bottom: 18px;
     }
-
-    .profile-info .bio {
-      color: var(--text-muted);
-      font-size: 0.88rem;
-      margin-top: 6px;
-      line-height: 1.4;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-    }
-
-    /* Przycisk kopiowania Discorda */
-    .discord-copy-btn {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--glass-border);
-      border-radius: 20px;
-      padding: 8px 16px;
-      color: var(--accent);
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.25s ease;
-      backdrop-filter: blur(4px);
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-    }
-
-    .discord-copy-btn i {
-      color: #5865F2;
+    .bio {
+      color: var(--muted);
       font-size: 1.1rem;
+      font-weight: 300;
+      line-height: 1.5;
+      max-width: 400px;
+      margin-bottom: 30px;
     }
 
-    .discord-copy-btn:hover {
-      background: rgba(255, 255, 255, 0.15);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-
-    .discord-copy-btn:active {
-      transform: translateY(0);
-    }
-
-    /* Siatka ikon Social Media */
-    .social-icons {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 18px 20px;
-      width: 100%;
-      margin: 4px 0;
-    }
-
-    .icon-link {
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 1.6rem;
-      transition: all 0.3s ease;
-      opacity: 0.9;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      width: 1.6rem;
-      height: 1.6rem;
-    }
-
-    .icon-link:hover {
-      opacity: 1;
-      transform: translateY(-4px) scale(1.15);
-      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
-    }
-
-    /* Stylizacja dla pliku z logo Kicka */
-    .kick-img-icon {
-      height: 1.6rem;
-      width: auto;
-      object-fit: contain;
-      filter: brightness(1);
-    }
-
-    /* Stylizacja SVG dla X (Twitter) oraz NameMC */
-    .custom-svg-icon {
-      width: 1.4rem;
-      height: 1.4rem;
-    }
-
-    /* Badge/Wskaźnik numeryczny dla kont Steam */
-    .steam-badge {
-      position: absolute;
-      bottom: -4px;
-      right: -6px;
-      background: rgba(255, 255, 255, 0.9);
-      color: #000;
-      font-size: 0.65rem;
-      font-weight: 800;
-      width: 15px;
-      height: 15px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    }
-
-    /* Odtwarzacz muzyki */
-    .music-player {
-      width: 100%;
-      background: rgba(0, 0, 0, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 16px;
-      padding: 12px 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .song-title {
-      font-family: var(--gangster-font);
-      font-size: 1.2rem;
-      letter-spacing: 1px;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.7);
-    }
-
-    .artist { color: var(--text-muted); font-size: 0.75rem; text-shadow: 0 1px 3px rgba(0,0,0,0.7); }
-
-    .progress-container {
-      width: 100%;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 2px;
+    .pills { display: flex; flex-wrap: wrap; gap: 10px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 9px;
+      padding: 10px 18px;
+      font: inherit; font-size: 0.95rem; font-weight: 400;
+      color: var(--text); text-decoration: none;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--line);
+      border-radius: 999px;
       cursor: pointer;
-      overflow: hidden;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      transition: background 0.25s, transform 0.25s;
     }
+    .pill:hover { background: rgba(255,255,255,0.14); transform: translateY(-2px); }
+    .pill .discord { color: #5865F2; font-size: 1.1rem; }
 
-    .progress {
-      width: 0%;
-      height: 100%;
-      background: var(--accent);
-      transition: width 0.1s linear;
-    }
-
-    .player-controls {
-      display: flex;
-      justify-content: center;
+    /* Prawa kolumna: lista linków */
+    .links { border-top: 1px solid var(--line); }
+    .row {
+      display: grid;
+      grid-template-columns: 28px 1fr auto;
       align-items: center;
       gap: 16px;
-      margin-top: 2px;
+      padding: 16px 6px;
+      border-bottom: 1px solid var(--line);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1.15rem;
+      font-weight: 400;
+      transition: padding-left 0.25s ease, background 0.25s ease;
+    }
+    .row:hover, .row:focus-visible { padding-left: 16px; background: rgba(255,255,255,0.07); }
+    .ico { display: grid; place-items: center; font-size: 1.3rem; }
+    .ico svg { width: 1.2rem; height: 1.2rem; }
+    .ico img { height: 1.25rem; width: auto; display: block; }
+    .hdl { color: var(--muted); font-size: 0.9rem; font-weight: 300; }
+
+    /* --- ODTWARZACZ (dolny pasek) --- */
+    .player {
+      position: fixed;
+      left: 50%; bottom: 18px;
+      transform: translateX(-50%);
+      width: min(92vw, 440px);
+      padding: 12px 16px 8px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: 10;
+    }
+    .player-top { display: flex; align-items: center; gap: 14px; }
+    .play {
+      flex: none; width: 40px; height: 40px;
+      border-radius: 50%; border: none;
+      background: #fff; color: #000;
+      font-size: 0.95rem; cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .play:hover { transform: scale(1.08); }
+    .song-title { font-family: var(--blackletter); font-size: 1.25rem; letter-spacing: 1px; line-height: 1.1; }
+    .artist { color: var(--muted); font-size: 0.78rem; font-weight: 300; }
+
+    .progress-container { height: 16px; display: flex; align-items: center; cursor: pointer; margin-top: 4px; }
+    .progress-track { width: 100%; height: 3px; background: rgba(255,255,255,0.2); border-radius: 2px; overflow: hidden; }
+    .progress { width: 0%; height: 100%; background: #fff; transition: width 0.1s linear; }
+
+    /* --- POWIADOMIENIE --- */
+    #copy-toast {
+      position: fixed; top: 24px; left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 22px;
+      background: rgba(0,0,0,0.8);
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      font-size: 0.9rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      opacity: 0; visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    #copy-toast.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+    #copy-toast i { color: #5865F2; }
+
+    a:focus-visible, button:focus-visible, .progress-container:focus-visible {
+      outline: 2px solid #fff; outline-offset: 3px;
     }
 
-    .player-btn {
-      background: none;
-      border: none;
-      color: var(--accent);
-      font-size: 1rem;
-      cursor: pointer;
-      opacity: 0.85;
-      transition: all 0.2s ease;
-      filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
+    @media (max-width: 920px) {
+      .shade { background: linear-gradient(0deg, rgba(0,0,0,0.75), rgba(0,0,0,0.5)); }
+      .stage { grid-template-columns: 1fr; gap: 36px; align-items: start; padding-top: 56px; }
     }
 
-    .player-btn:hover { opacity: 1; transform: scale(1.1); }
-    .play-btn { font-size: 1.3rem; }
+    @media (prefers-reduced-motion: reduce) {
+      .stage { transition: none; transform: none; }
+      * { transition-duration: 0.01s !important; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Komunikat po skopiowaniu -->
-  <div id="copy-toast">
-    <i class="fa-brands fa-discord"></i>
+  <div id="copy-toast" role="status" aria-live="polite">
+    <i class="fa-brands fa-discord" aria-hidden="true"></i>
     <span>Skopiowano nick Discord!</span>
   </div>
 
-  <!-- Ekran startowy -->
-  <div id="overlay" onclick="enterSite()">
-    <p>Kliknij, aby wejść</p>
-  </div>
+  <button id="overlay" type="button" onclick="enterSite()"><span>Kliknij, aby wejść</span></button>
 
-  <!-- Wideo w tle -->
-  <video loop muted playsinline id="video-bg">
+  <video loop muted playsinline preload="metadata" id="video-bg" aria-hidden="true">
     <source src="bg.mp4" type="video/mp4">
   </video>
+  <div class="shade" aria-hidden="true"></div>
 
-  <!-- Główna karta -->
-  <div class="glass-card">
-    
-    <!-- Profil -->
-    <img src="avatar.png" alt="Avatar" class="avatar">
-    
-    <div class="profile-info">
+  <main class="stage">
+    <section>
+      <img src="avatar.png" alt="Avatar @referencja" class="avatar">
       <h1>@referencja</h1>
       <p class="bio">Tradycyjnie: Kasy, chlania i ruchania!</p>
-    </div>
 
-    <!-- Przycisk kopiowania Discorda z Twoim nickiem -->
-    <button class="discord-copy-btn" onclick="copyDiscordNick('referencja')">
-      <i class="fa-brands fa-discord"></i>
-      <span>referencja</span>
-    </button>
+      <div class="pills">
+        <button type="button" class="pill" onclick="copyDiscordNick('referencja')">
+          <i class="fa-brands fa-discord discord" aria-hidden="true"></i>
+          <span>referencja</span>
+        </button>
+        <a class="pill" href="http://reflauncher.monsterkoholik.pl/" target="_blank" rel="noopener">
+          <i class="fa-solid fa-mobile-screen" aria-hidden="true"></i>
+          <span>RefLauncher</span>
+        </a>
+      </div>
+    </section>
 
-    <!-- Ikony Social Media -->
-    <div class="social-icons">
-      <!-- Twitch -->
-      <a href="https://twitch.tv/pawissek" target="_blank" class="icon-link" title="Twitch">
-        <i class="fa-brands fa-twitch"></i>
+    <nav class="links" aria-label="Moje linki">
+      <a class="row" href="https://twitch.tv/pawissek" target="_blank" rel="noopener">
+        <span class="ico"><i class="fa-brands fa-twitch" aria-hidden="true"></i></span>
+        <span>Twitch</span><span class="hdl">pawissek</span>
       </a>
-
-      <!-- Kick (Obrazek kick.png) -->
-      <a href="https://kick.com/pawissek" target="_blank" class="icon-link" title="Kick">
-        <img src="kick.png" alt="Kick" class="kick-img-icon">
+      <a class="row" href="https://kick.com/pawissek" target="_blank" rel="noopener">
+        <span class="ico"><img src="kick.png" alt=""></span>
+        <span>Kick</span><span class="hdl">pawissek</span>
       </a>
-
-      <!-- X / Twitter -->
-      <a href="https://x.com/pawissek" target="_blank" class="icon-link" title="X (Twitter)">
-        <svg class="custom-svg-icon" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-        </svg>
+      <a class="row" href="https://x.com/pawissek" target="_blank" rel="noopener">
+        <span class="ico">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </span>
+        <span>X</span><span class="hdl">pawissek</span>
       </a>
-
-      <!-- NameMC (Poprawiona ikona: pikselowe małe "n") -->
-      <a href="https://namemc.com/profile/clcv" target="_blank" class="icon-link" title="NameMC">
-        <svg class="custom-svg-icon" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M0 0v24h24V0H0zm4 4h16v16H4V4zm3 3v10h4v-5h2v5h4V10h-4V7H7z"/>
-        </svg>
+      <a class="row" href="https://namemc.com/profile/clcv" target="_blank" rel="noopener">
+        <span class="ico">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M0 0v24h24V0H0zm4 4h16v16H4V4zm3 3v10h4v-5h2v5h4V10h-4V7H7z"/></svg>
+        </span>
+        <span>NameMC</span><span class="hdl">clcv</span>
       </a>
-
-      <!-- Steam 1 -->
-      <a href="https://steamcommunity.com/id/pawissek" target="_blank" class="icon-link" title="Steam Main">
-        <i class="fa-brands fa-steam"></i>
-        <span class="steam-badge">1</span>
+      <a class="row" href="https://steamcommunity.com/id/pawissek" target="_blank" rel="noopener">
+        <span class="ico"><i class="fa-brands fa-steam" aria-hidden="true"></i></span>
+        <span>Steam</span><span class="hdl">pawissek</span>
       </a>
-
-      <!-- Steam 2 -->
-      <a href="https://steamcommunity.com/id/clcv" target="_blank" class="icon-link" title="Steam Alt">
-        <i class="fa-brands fa-steam"></i>
-        <span class="steam-badge">2</span>
+      <a class="row" href="https://steamcommunity.com/id/clcv" target="_blank" rel="noopener">
+        <span class="ico"><i class="fa-brands fa-steam" aria-hidden="true"></i></span>
+        <span>Steam, drugie konto</span><span class="hdl">clcv</span>
       </a>
-
-      <!-- GitHub -->
-      <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1&pp=ygUJcmljayByb2xsoAcB" target="_blank" class="icon-link" title="GitHub">
-        <i class="fa-brands fa-github"></i>
+      <a class="row" href="https://github.com/pawissek" target="_blank" rel="noopener">
+        <span class="ico"><i class="fa-brands fa-github" aria-hidden="true"></i></span>
+        <span>GitHub</span><span class="hdl">pawissek</span>
       </a>
-
-      <!-- Spotify -->
-      <a href="https://open.spotify.com/user/31wsibzxwapnyd3h6h5qod6mem5i?si=75b7863ce6ba4e52" target="_blank" class="icon-link" title="Spotify">
-        <i class="fa-brands fa-spotify"></i>
+      <a class="row" href="https://open.spotify.com/user/31wsibzxwapnyd3h6h5qod6mem5i?si=75b7863ce6ba4e52" target="_blank" rel="noopener">
+        <span class="ico"><i class="fa-brands fa-spotify" aria-hidden="true"></i></span>
+        <span>Spotify</span><span class="hdl">profil</span>
       </a>
-
-      <!-- Instagram -->
-      <a href="https://instagram.com/pawissek" target="_blank" class="icon-link" title="Instagram">
-        <i class="fa-brands fa-instagram"></i>
+      <a class="row" href="https://instagram.com/pawissek" target="_blank" rel="noopener">
+        <span class="ico"><i class="fa-brands fa-instagram" aria-hidden="true"></i></span>
+        <span>Instagram</span><span class="hdl">pawissek</span>
       </a>
-    </div>
+    </nav>
+  </main>
 
-    <!-- Odtwarzacz muzyki -->
-    <div class="music-player">
-      <div class="song-info">
+  <div class="player">
+    <div class="player-top">
+      <button class="play" id="play" type="button" aria-label="Odtwórz lub zatrzymaj"><i class="fas fa-play" aria-hidden="true"></i></button>
+      <div>
         <div class="song-title">joint i sport</div>
         <div class="artist">kuqe 2115</div>
       </div>
-      
-      <div class="progress-container" id="progress-container">
-        <div class="progress" id="progress"></div>
-      </div>
-
-      <div class="player-controls">
-        <button class="player-btn" id="prev"><i class="fas fa-backward"></i></button>
-        <button class="player-btn play-btn" id="play"><i class="fas fa-play"></i></button>
-        <button class="player-btn" id="next"><i class="fas fa-forward"></i></button>
-      </div>
     </div>
-
+    <div class="progress-container" id="progress-container" role="slider" tabindex="0"
+         aria-label="Postęp utworu" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="progress-track"><div class="progress" id="progress"></div></div>
+    </div>
   </div>
 
-  <!-- Audio -->
-  <audio id="audio" src="song.mp3"></audio>
+  <audio id="audio" src="song.mp3" loop preload="metadata"></audio>
 
   <script>
     const audio = document.getElementById('audio');
@@ -442,8 +323,6 @@
     const playIcon = playBtn.querySelector('i');
     const progress = document.getElementById('progress');
     const progressContainer = document.getElementById('progress-container');
-
-    let isPlaying = false;
     let toastTimeout;
 
     function copyDiscordNick(nick) {
@@ -451,66 +330,43 @@
         const toast = document.getElementById('copy-toast');
         clearTimeout(toastTimeout);
         toast.classList.add('show');
-
-        toastTimeout = setTimeout(() => {
-          toast.classList.remove('show');
-        }, 2500);
-      }).catch(err => {
-        console.error('Błąd podczas kopiowania: ', err);
-      });
+        toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
+      }).catch(err => console.error('Błąd podczas kopiowania: ', err));
     }
 
     function enterSite() {
       const overlay = document.getElementById('overlay');
       overlay.style.opacity = '0';
       overlay.style.visibility = 'hidden';
-
-      video.play();
-      audio.play().then(() => {
-        isPlaying = true;
-        playIcon.className = 'fas fa-pause';
-      }).catch(err => console.log("Błąd odtwarzania:", err));
+      document.body.classList.add('in');
+      audio.play().catch(() => video.play().catch(() => {}));
     }
 
-    function togglePlay() {
-      if (isPlaying) {
-        audio.pause();
-        video.pause();
-        playIcon.className = 'fas fa-play';
-      } else {
-        audio.play().catch(err => console.log("Interakcja wymagana przez przeglądarkę"));
-        video.play();
-        playIcon.className = 'fas fa-pause';
-      }
-      isPlaying = !isPlaying;
-    }
+    audio.addEventListener('play', () => { playIcon.className = 'fas fa-pause'; video.play().catch(() => {}); });
+    audio.addEventListener('pause', () => { playIcon.className = 'fas fa-play'; video.pause(); });
 
-    function updateProgress(e) {
-      const { duration, currentTime } = e.srcElement;
-      if (duration) {
-        const progressPercent = (currentTime / duration) * 100;
-        progress.style.width = `${progressPercent}%`;
-      }
-    }
+    playBtn.addEventListener('click', () => {
+      if (audio.paused) audio.play().catch(() => {});
+      else audio.pause();
+    });
 
-    function setProgress(e) {
-      const width = this.clientWidth;
-      const clickX = e.offsetX;
-      const duration = audio.duration;
-      if (duration) {
-        audio.currentTime = (clickX / width) * duration;
-      }
-    }
+    audio.addEventListener('timeupdate', () => {
+      if (!audio.duration) return;
+      const pct = (audio.currentTime / audio.duration) * 100;
+      progress.style.width = pct + '%';
+      progressContainer.setAttribute('aria-valuenow', Math.round(pct));
+    });
 
-    playBtn.addEventListener('click', togglePlay);
-    audio.addEventListener('timeupdate', updateProgress);
-    progressContainer.addEventListener('click', setProgress);
-    
-    audio.addEventListener('ended', () => {
-      audio.currentTime = 0;
-      audio.play();
-      video.currentTime = 0;
-      video.play();
+    function seekTo(clientX) {
+      const rect = progressContainer.getBoundingClientRect();
+      const ratio = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+      if (audio.duration) audio.currentTime = ratio * audio.duration;
+    }
+    progressContainer.addEventListener('click', e => seekTo(e.clientX));
+    progressContainer.addEventListener('keydown', e => {
+      if (!audio.duration) return;
+      if (e.key === 'ArrowRight') audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
+      if (e.key === 'ArrowLeft') audio.currentTime = Math.max(0, audio.currentTime - 5);
     });
   </script>
 </body>
